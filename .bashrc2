@@ -1,0 +1,76 @@
+# copy from /etc/profile
+pathmunge () {
+        if ! echo $PATH | /bin/egrep -q "(^|:)$1($|:)" ; then
+           if [ "$2" = "after" ] ; then
+              PATH=$PATH:$1
+           else
+              PATH=$1:$PATH
+           fi
+        fi
+}
+
+export HADOOP_HOME=/usr/local/hadoop
+export HBASE_HOME=/usr/local/hbase
+export PGSQL_HOME=/usr/local/pgsql
+
+pathmunge $HADOOP_HOME/bin after
+pathmunge $HBASE_HOME/bin after
+pathmunge $PGSQL_HOME/bin after
+
+export PS1="\h[\u@\w]\\$ "
+export LANG='ja_JP.eucJP'
+export MANPAGER=/bin/more
+export EDITOR=/usr/bin/emacs
+
+# alias
+alias cp='cp -pR'
+alias df='df -k'
+alias diff='diff -bw'
+alias grep='grep -n'
+alias ls='/bin/ls -AFlt'
+alias lsdir='/bin/ls -AFlt | /bin/grep "^d"'
+alias lsfile='/bin/ls -AFlt | /bin/grep "^-"'
+alias mv='mv -i'
+alias ps='ps -eo user,pid,ppid,stime,comm'
+alias rm='/bin/rm -i'
+# alias rmni='/bin/rm'
+alias whereis='whereis -B $PATH -f'
+alias uname='uname -a'
+alias pg_dump='pg_dump -O -d -a'
+alias lisp='guile'
+alias scheme='guile'
+
+alias scheme='guile'
+alias lisp='guile'
+
+alias p+=pushd
+alias p-=popd
+
+alias unbz2='bzip2'
+alias version='rpm -q redhat-release'
+
+alias viewjar='jar tvf'
+
+alias leakcheck='valgrind --leak-check=full'
+
+alias euc2sjis='iconv -f eucJP -t SJIS'
+alias euc2utf8='iconv -f eucJP -t UTF-8'
+alias sjis2euc='iconv -f SJIS  -t eucJP'
+alias sjis2utf8='iconv -f SJIS  -t UTF-8'
+alias utf82euc='iconv -f UTF-8 -t eucJP'
+
+function lsdir() {    ## bash
+  /bin/ls -AFlt $1 | /bin/grep "^d"
+}
+function lsfile() {   ## bash
+  /bin/ls -AFlt $1 | /bin/grep "^-"
+}
+function lslink() {   ## bash
+  /bin/ls -AFlt $1 | /bin/grep "^l"
+}
+
+echo -n "Login to masterServer (yes/no)? "
+read yornp
+if [ $yornp = 'yes' ] ; then
+    ssh masterServer
+fi

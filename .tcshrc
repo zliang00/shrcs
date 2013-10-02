@@ -1,0 +1,10 @@
+source $HOME/.cshrc
+if ( $?USER == 0 || $?prompt == 0 ) then
+  exit
+endif
+set autolist=ambiguous
+set matchbeep=nomatch
+set correct=cmd
+unset autologout
+bindkey '^P' history-search-backward
+bindkey '^N' history-search-forward
